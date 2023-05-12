@@ -293,8 +293,14 @@ class SbatchForm(Configurable):
     def config_partitions(self):
         choices = self.resolve(self.partitions.get('choices'))
         lock = self.resolve(self.partitions.get('lock'))
-        self.form['partitions'].validators[-1].values = [key for key in choices]
-        self.form['partitions'].choices = [(key, key) for key in choices]
+
+        partition_choice_map = {'' : 'None'}
+        for partition in choices:
+            if partition != '':
+                partition_choice_map[partition] = partition
+
+        self.form['partitions'].choices = list(partition_choice_map.items())
+        self.form['partitions'].validators[-1].values = [key for key, value in self.form['partitions'].choices]
 
         if lock:
             self.form['partitions'].render_kw = {'disabled': 'disabled'}

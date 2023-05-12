@@ -45,7 +45,9 @@
     {{ form.ui.label }}
     {{ form.ui(class_="form-control") }}
 </div>
+{% if form.partitions.__html__() != "<select id=\"partitions\" name=\"partitions\"><option selected value=\"\">None</option></select>" %}
 <div class="form-group">
     {{ form.partitions.label }}
     {{ form.partitions(class_="form-control") }}
 </div>
+{% endif %}
